@@ -1108,6 +1108,215 @@
     border-radius: 10px;
     margin-top: 5px;
   }
+
+  /* ── Profile Page ── */
+  .profile-top {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 28px;
+  }
+  .profile-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-deep) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 28px;
+    color: #fff;
+  }
+  .profile-name-area { min-width: 0; }
+  .profile-display-name {
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--fg);
+    line-height: 1.2;
+  }
+  .profile-username {
+    font-size: 14px;
+    color: var(--fg-muted);
+    margin-top: 2px;
+  }
+  .profile-edit-btn {
+    margin-top: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent-deep);
+    border: 1px solid var(--accent);
+    background: none;
+    border-radius: 20px;
+    padding: 5px 14px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s;
+  }
+  .profile-edit-btn:hover { background: color-mix(in srgb, var(--accent) 15%, transparent); }
+  .profile-edit-btn svg { width: 13px; height: 13px; }
+
+  .profile-section {
+    margin-bottom: 24px;
+  }
+  .profile-section-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .profile-section-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .profile-section-icon svg { width: 16px; height: 16px; }
+  .profile-section-title {
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--fg);
+  }
+
+  .profile-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    box-shadow: var(--shadow-card);
+  }
+
+  /* Store chips */
+  .store-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .store-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 24px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--fg);
+    cursor: default;
+    transition: border-color 0.15s;
+  }
+  .store-chip:hover { border-color: var(--accent); }
+  .store-chip .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .add-store-chip {
+    border-style: dashed;
+    color: var(--fg-muted);
+    cursor: pointer;
+  }
+  .add-store-chip:hover { border-color: var(--accent-deep); color: var(--accent-text); }
+
+  /* Sizing grid */
+  .sizing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .sizing-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    border: 1px solid var(--border);
+  }
+  .sizing-label {
+    font-size: 13px;
+    color: var(--fg-muted);
+  }
+  .sizing-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--fg);
+  }
+
+  /* Cost preferences */
+  .cost-range {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .cost-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    border: 1px solid var(--border);
+  }
+  .cost-category {
+    font-size: 13px;
+    color: var(--fg-muted);
+  }
+  .cost-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--fg);
+  }
+  .cost-bar-track {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--border);
+    flex: 1;
+    margin: 0 14px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cost-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-deep));
+  }
+
+  .profile-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    text-align: center;
+    box-shadow: var(--shadow-card);
+  }
+  .stat-number {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent-deep);
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: var(--fg-muted);
+    margin-top: 2px;
+  }
 </style>
 
 <!-- Header -->
@@ -1228,12 +1437,136 @@
     </div>
   </div>
 
-  <!-- ═══ PROFILE PAGE (placeholder) ═══ -->
+  <!-- ═══ PROFILE PAGE ═══ -->
   <div class="page" id="pageProfile">
-    <div class="discover-header">
-      <div class="discover-greeting">Profile</div>
-      <div class="discover-sub">Coming soon</div>
+
+    <!-- User identity -->
+    <div class="profile-top">
+      <div class="profile-avatar">K</div>
+      <div class="profile-name-area">
+        <div class="profile-display-name">Kendall</div>
+        <div class="profile-username">@kendall.closet</div>
+        <button class="profile-edit-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
+          Edit Profile
+        </button>
+      </div>
     </div>
+
+    <!-- Quick stats -->
+    <div class="profile-stats">
+      <div class="stat-card">
+        <div class="stat-number" id="statWardrobes">1</div>
+        <div class="stat-label">Wardrobes</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">8</div>
+        <div class="stat-label">Items</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">3</div>
+        <div class="stat-label">Saved</div>
+      </div>
+    </div>
+
+    <!-- Favorite Stores -->
+    <div class="profile-section">
+      <div class="profile-section-header">
+        <div class="profile-section-icon" style="background: color-mix(in srgb, #E8825A 15%, var(--bg));">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#E8825A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"/><path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9"/><path d="M12 3v6"/></svg>
+        </div>
+        <div class="profile-section-title">Favorite Stores</div>
+      </div>
+      <div class="profile-card">
+        <div class="store-chips">
+          <div class="store-chip"><span class="dot" style="background: #1A1A1A;"></span>Aritzia</div>
+          <div class="store-chip"><span class="dot" style="background: #E07B54;"></span>Reformation</div>
+          <div class="store-chip"><span class="dot" style="background: #5B7E5A;"></span>Everlane</div>
+          <div class="store-chip"><span class="dot" style="background: #8B7355;"></span>Madewell</div>
+          <div class="store-chip"><span class="dot" style="background: #4A6B8A;"></span>Zara</div>
+          <div class="store-chip"><span class="dot" style="background: #9E8B73;"></span>COS</div>
+          <div class="store-chip add-store-chip">+ Add store</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preferred Sizing -->
+    <div class="profile-section">
+      <div class="profile-section-header">
+        <div class="profile-section-icon" style="background: color-mix(in srgb, #5A8FE8 15%, var(--bg));">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#5A8FE8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3H3v7h18V3Z"/><path d="M21 14H3v7h18v-7Z"/><path d="M12 3v7"/><path d="M12 14v7"/></svg>
+        </div>
+        <div class="profile-section-title">Preferred Sizing</div>
+      </div>
+      <div class="profile-card">
+        <div class="sizing-grid">
+          <div class="sizing-item">
+            <span class="sizing-label">Tops</span>
+            <span class="sizing-value">S</span>
+          </div>
+          <div class="sizing-item">
+            <span class="sizing-label">Bottoms</span>
+            <span class="sizing-value">4 / 27</span>
+          </div>
+          <div class="sizing-item">
+            <span class="sizing-label">Dresses</span>
+            <span class="sizing-value">S</span>
+          </div>
+          <div class="sizing-item">
+            <span class="sizing-label">Shoes</span>
+            <span class="sizing-value">7.5</span>
+          </div>
+          <div class="sizing-item">
+            <span class="sizing-label">Outerwear</span>
+            <span class="sizing-value">M</span>
+          </div>
+          <div class="sizing-item">
+            <span class="sizing-label">Accessories</span>
+            <span class="sizing-value">OS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cost Preferences -->
+    <div class="profile-section">
+      <div class="profile-section-header">
+        <div class="profile-section-icon" style="background: color-mix(in srgb, var(--accent-deep) 15%, var(--bg));">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-deep)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div class="profile-section-title">Cost Preferences</div>
+      </div>
+      <div class="profile-card">
+        <div class="cost-range">
+          <div class="cost-row">
+            <span class="cost-category">Tops</span>
+            <div class="cost-bar-track"><div class="cost-bar-fill" style="width: 35%;"></div></div>
+            <span class="cost-value">$25 – $80</span>
+          </div>
+          <div class="cost-row">
+            <span class="cost-category">Bottoms</span>
+            <div class="cost-bar-track"><div class="cost-bar-fill" style="width: 50%;"></div></div>
+            <span class="cost-value">$50 – $150</span>
+          </div>
+          <div class="cost-row">
+            <span class="cost-category">Outerwear</span>
+            <div class="cost-bar-track"><div class="cost-bar-fill" style="width: 65%;"></div></div>
+            <span class="cost-value">$100 – $350</span>
+          </div>
+          <div class="cost-row">
+            <span class="cost-category">Shoes</span>
+            <div class="cost-bar-track"><div class="cost-bar-fill" style="width: 45%;"></div></div>
+            <span class="cost-value">$60 – $200</span>
+          </div>
+          <div class="cost-row">
+            <span class="cost-category">Bags</span>
+            <div class="cost-bar-track"><div class="cost-bar-fill" style="width: 55%;"></div></div>
+            <span class="cost-value">$80 – $250</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
 </main>
