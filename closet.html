@@ -1,0 +1,987 @@
+<title>ClosetAI</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@700;800&display=swap">
+
+<style>
+  /* Layout: mobile-first app shell with fixed header + bottom nav, scrollable middle */
+  :root {
+    --bg: #FAF8F5;
+    --bg-card: #FFFFFF;
+    --fg: #1A1A1A;
+    --fg-muted: #8A8580;
+    --fg-secondary: #5C5651;
+    --accent: #B8C5B4;
+    --accent-deep: #7A9A6F;
+    --accent-text: #4A6B42;
+    --border: #EDE9E4;
+    --overlay: rgba(26,26,26,0.45);
+    --nav-bg: rgba(255,255,255,0.92);
+    --shadow-card: 0 1px 4px rgba(26,26,26,0.06), 0 4px 16px rgba(26,26,26,0.04);
+    --shadow-fab: 0 4px 20px rgba(122,154,111,0.35);
+    --radius: 16px;
+    --radius-sm: 10px;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'DM Sans', -apple-system, sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141312;
+      --bg-card: #1E1D1B;
+      --fg: #F0EDE8;
+      --fg-muted: #7A7570;
+      --fg-secondary: #A39E98;
+      --accent: #8FAF87;
+      --accent-deep: #8FAF87;
+      --accent-text: #A8CCA0;
+      --border: #2A2825;
+      --overlay: rgba(0,0,0,0.6);
+      --nav-bg: rgba(30,29,27,0.94);
+      --shadow-card: 0 1px 4px rgba(0,0,0,0.2), 0 4px 16px rgba(0,0,0,0.15);
+      --shadow-fab: 0 4px 20px rgba(143,175,135,0.25);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141312;
+    --bg-card: #1E1D1B;
+    --fg: #F0EDE8;
+    --fg-muted: #7A7570;
+    --fg-secondary: #A39E98;
+    --accent: #8FAF87;
+    --accent-deep: #8FAF87;
+    --accent-text: #A8CCA0;
+    --border: #2A2825;
+    --overlay: rgba(0,0,0,0.6);
+    --nav-bg: rgba(30,29,27,0.94);
+    --shadow-card: 0 1px 4px rgba(0,0,0,0.2), 0 4px 16px rgba(0,0,0,0.15);
+    --shadow-fab: 0 4px 20px rgba(143,175,135,0.25);
+    color-scheme: dark;
+  }
+
+  html, body { height: 100%; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    margin: 0;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Header ── */
+  .app-header {
+    padding: 18px 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 5;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0 0 auto;
+    height: env(safe-area-inset-top, 0px);
+    z-index: 10;
+    background: var(--bg);
+  }
+
+  .logo {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 26px;
+    letter-spacing: -0.5px;
+    color: var(--fg);
+    line-height: 1;
+  }
+  .logo span {
+    color: var(--accent-deep);
+  }
+
+  .header-subtitle {
+    font-size: 12px;
+    color: var(--fg-muted);
+    margin-top: 2px;
+    letter-spacing: 0.3px;
+  }
+
+  .header-right {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    color: var(--fg-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .icon-btn:hover { border-color: var(--accent); }
+  .icon-btn svg { width: 18px; height: 18px; }
+
+  /* ── Scrollable content ── */
+  .content {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 100px;
+  }
+
+  /* ── Section title row ── */
+  .section-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin: 20px 0 14px;
+  }
+  .section-title {
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--fg);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title .icon {
+    width: 20px;
+    height: 20px;
+    color: var(--accent-deep);
+  }
+  .section-count {
+    font-size: 13px;
+    color: var(--fg-muted);
+    font-weight: 400;
+  }
+
+  /* ── Wardrobe grid ── */
+  .wardrobe-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .wardrobe-card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid var(--border);
+  }
+  .wardrobe-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(26,26,26,0.1);
+  }
+  .wardrobe-card:active { transform: scale(0.97); }
+
+  .wardrobe-thumb {
+    width: 100%;
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, var(--accent) 0%, #D4C8B8 50%, #C5B8A8 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .wardrobe-thumb .collage {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 2px;
+    width: 100%;
+    height: 100%;
+  }
+  .collage-cell {
+    background: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: var(--fg-muted);
+    overflow: hidden;
+  }
+  .collage-cell svg { width: 24px; height: 24px; opacity: 0.35; }
+
+  .item-count-badge {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: var(--overlay);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 20px;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    letter-spacing: 0.2px;
+  }
+
+  .wardrobe-info {
+    padding: 12px 14px;
+  }
+  .wardrobe-name {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 3px;
+    color: var(--fg);
+  }
+  .wardrobe-date {
+    font-size: 12px;
+    color: var(--fg-muted);
+  }
+
+  /* ── Add wardrobe card ── */
+  .add-card {
+    background: transparent;
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    min-height: 200px;
+    gap: 10px;
+  }
+  .add-card:hover {
+    border-color: var(--accent-deep);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+  }
+  .add-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+  }
+  .add-card:hover .add-icon { transform: scale(1.08); }
+  .add-icon svg { width: 22px; height: 22px; color: var(--accent-text); }
+  .add-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--fg-muted);
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  /* ── Quick tip ── */
+  .tip-banner {
+    margin-top: 20px;
+    background: color-mix(in srgb, var(--accent) 15%, var(--bg));
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border));
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .tip-icon {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .tip-icon svg { width: 16px; height: 16px; color: var(--accent-text); }
+  .tip-text {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--fg-secondary);
+  }
+  .tip-text strong { color: var(--fg); font-weight: 600; }
+
+  /* ── Bottom Navigation ── */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--nav-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 8px 0;
+    padding-bottom: max(8px, env(safe-area-inset-bottom, 0px));
+    z-index: 20;
+  }
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    cursor: pointer;
+    padding: 6px 20px;
+    border-radius: 12px;
+    transition: background 0.15s;
+    border: none;
+    background: none;
+    font-family: inherit;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .nav-item:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+  .nav-item svg { width: 22px; height: 22px; color: var(--fg-muted); transition: color 0.15s; }
+  .nav-item .nav-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--fg-muted);
+    letter-spacing: 0.2px;
+    transition: color 0.15s;
+  }
+  .nav-item.active svg { color: var(--accent-deep); }
+  .nav-item.active .nav-label { color: var(--accent-text); font-weight: 600; }
+
+  /* ── Modal Overlay ── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--overlay);
+    z-index: 50;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+  }
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .modal-sheet {
+    background: var(--bg-card);
+    border-radius: 24px 24px 0 0;
+    width: 100%;
+    max-width: 480px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(100%);
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    overflow: hidden;
+  }
+  .modal-overlay.open .modal-sheet {
+    transform: translateY(0);
+  }
+
+  .modal-handle {
+    width: 36px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border);
+    margin: 10px auto 0;
+    flex-shrink: 0;
+  }
+
+  .modal-header {
+    padding: 16px 20px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .modal-title {
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--fg);
+  }
+  .modal-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: var(--border);
+    color: var(--fg-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .modal-close:hover { background: color-mix(in srgb, var(--fg-muted) 25%, var(--border)); }
+  .modal-close svg { width: 16px; height: 16px; }
+
+  .modal-body {
+    padding: 0 20px 20px;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  /* ── Step: Name ── */
+  .step { display: none; }
+  .step.active { display: block; }
+
+  .input-group {
+    margin-bottom: 20px;
+  }
+  .input-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--fg-secondary);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .text-input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+  }
+  .text-input::placeholder { color: var(--fg-muted); }
+  .text-input:focus { border-color: var(--accent-deep); }
+  .char-count {
+    font-size: 11px;
+    color: var(--fg-muted);
+    text-align: right;
+    margin-top: 6px;
+  }
+
+  .btn-primary {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: var(--accent-deep);
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+  }
+  .btn-primary:hover { opacity: 0.9; }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-primary:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* ── Step: Upload ── */
+  .upload-zone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 32px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    margin-bottom: 16px;
+  }
+  .upload-zone:hover, .upload-zone.dragover {
+    border-color: var(--accent-deep);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+  }
+  .upload-zone-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+  }
+  .upload-zone-icon svg { width: 22px; height: 22px; color: var(--accent-text); }
+  .upload-zone-text {
+    font-size: 14px;
+    color: var(--fg-secondary);
+    line-height: 1.5;
+  }
+  .upload-zone-text strong { color: var(--accent-text); }
+  .upload-zone-hint {
+    font-size: 12px;
+    color: var(--fg-muted);
+    margin-top: 6px;
+  }
+
+  .photo-count {
+    font-size: 13px;
+    color: var(--fg-secondary);
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .photo-count span { color: var(--accent-text); font-weight: 600; }
+
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .photo-thumb {
+    aspect-ratio: 1;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    position: relative;
+    background: var(--border);
+  }
+  .photo-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .photo-remove {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.55);
+    border: none;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .photo-thumb:hover .photo-remove { opacity: 1; }
+  .photo-remove svg { width: 12px; height: 12px; }
+
+  /* ── Confirm button with checkmark ── */
+  .btn-confirm {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: var(--accent-deep);
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: opacity 0.15s, transform 0.1s;
+  }
+  .btn-confirm:hover { opacity: 0.9; }
+  .btn-confirm:active { transform: scale(0.98); }
+  .btn-confirm:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-confirm svg { width: 18px; height: 18px; }
+
+  /* ── Success toast ── */
+  .toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-120%);
+    background: var(--accent-deep);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 100;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    white-space: nowrap;
+  }
+  .toast.show {
+    transform: translateX(-50%) translateY(0);
+  }
+  .toast svg { width: 16px; height: 16px; }
+
+  /* ── Empty state for new users ── */
+  @media (max-width: 360px) {
+    .wardrobe-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<!-- Header -->
+<header class="app-header">
+  <div>
+    <div class="logo">Closet<span>AI</span></div>
+    <div class="header-subtitle">Your inspiration. Real pieces.</div>
+  </div>
+  <div class="header-right">
+    <button class="icon-btn" aria-label="Notifications">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- Scrollable Content -->
+<main class="content">
+
+  <div class="section-row">
+    <div class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"/><path d="M3 9V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2"/><line x1="12" y1="13" x2="12" y2="17"/><line x1="10" y1="15" x2="14" y2="15"/></svg>
+      My Wardrobes
+    </div>
+    <span class="section-count">1 wardrobe</span>
+  </div>
+
+  <div class="wardrobe-grid">
+
+    <!-- Mock wardrobe: Cozy Autumn -->
+    <div class="wardrobe-card" role="button" tabindex="0" aria-label="Cozy Autumn wardrobe">
+      <div class="wardrobe-thumb">
+        <div class="collage">
+          <div class="collage-cell" style="background: #C4A882;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.87-3.13-7-7-7Z"/></svg>
+          </div>
+          <div class="collage-cell" style="background: #D4C4A8;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.38 3.46L16 2 12 3.5 8 2 3.62 3.46A2 2 0 0 0 2 5.41v14.18a2 2 0 0 0 2.62 1.89L8 20l4-1.5 4 1.5 4.38-1.52A2 2 0 0 0 22 16.59V5.41a2 2 0 0 0-1.62-1.95Z"/></svg>
+          </div>
+          <div class="collage-cell" style="background: #A89070;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22C6.5 22 2 17.5 2 12S6.5 2 12 2s10 4.5 10 10-4.5 10-10 10Z"/></svg>
+          </div>
+          <div class="collage-cell" style="background: #BCA888;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+          </div>
+        </div>
+        <div class="item-count-badge">8 items</div>
+      </div>
+      <div class="wardrobe-info">
+        <div class="wardrobe-name">Cozy Autumn</div>
+        <div class="wardrobe-date">Created Nov 10</div>
+      </div>
+    </div>
+
+    <!-- Add new wardrobe -->
+    <div class="add-card" role="button" tabindex="0" aria-label="Create new wardrobe" id="addWardrobeBtn">
+      <div class="add-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </div>
+      <div class="add-label">Create a new<br>wardrobe</div>
+    </div>
+
+  </div>
+
+  <div class="tip-banner">
+    <div class="tip-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><path d="m15.5 7.5 2.8-2.8"/><path d="M20 12h-4"/><path d="m15.5 16.5 2.8 2.8"/><path d="M12 18v4"/><path d="m4.9 19.1 2.8-2.8"/><path d="M4 12h4"/><path d="m4.9 4.9 2.8 2.8"/></svg>
+    </div>
+    <div class="tip-text">
+      <strong>Tip:</strong> Upload photos of your favorite outfits and clothing items to build wardrobes. ClosetAI will help you discover new pieces that match your style.
+    </div>
+  </div>
+
+</main>
+
+<!-- Bottom Navigation -->
+<nav class="bottom-nav" aria-label="Main navigation">
+  <button class="nav-item active" aria-label="Closet" data-page="closet">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"/><path d="M3 9V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2"/></svg>
+    <span class="nav-label">Closet</span>
+  </button>
+  <button class="nav-item" aria-label="Discover" data-page="discover">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <span class="nav-label">Discover</span>
+  </button>
+  <button class="nav-item" aria-label="Profile" data-page="profile">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span class="nav-label">Profile</span>
+  </button>
+</nav>
+
+<!-- Modal: Create Wardrobe -->
+<div class="modal-overlay" id="createModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+
+    <!-- Step 1: Name -->
+    <div class="step active" id="stepName">
+      <div class="modal-header">
+        <div class="modal-title">New Wardrobe</div>
+        <button class="modal-close" id="modalClose1" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group">
+          <label class="input-label" for="wardrobeName">Wardrobe name</label>
+          <input type="text" class="text-input" id="wardrobeName" placeholder="e.g. Summer Vacation, Work Outfits" maxlength="30" autocomplete="off">
+          <div class="char-count"><span id="charCount">0</span>/30</div>
+        </div>
+        <button class="btn-primary" id="toUploadBtn" disabled>Continue</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Upload Photos -->
+    <div class="step" id="stepUpload">
+      <div class="modal-header">
+        <div class="modal-title" id="uploadTitle">Upload Photos</div>
+        <button class="modal-close" id="modalClose2" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="upload-zone" id="uploadZone">
+          <div class="upload-zone-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          </div>
+          <div class="upload-zone-text">Tap to <strong>select photos</strong></div>
+          <div class="upload-zone-hint">Select up to 20 photos · JPG, PNG, HEIC</div>
+        </div>
+        <input type="file" id="fileInput" accept="image/*" multiple hidden>
+
+        <div class="photo-count" id="photoCount" hidden>
+          <span id="selectedCount">0</span> of 20 photos selected
+        </div>
+        <div class="photo-grid" id="photoGrid"></div>
+
+        <button class="btn-confirm" id="confirmBtn" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Done — Upload to Wardrobe
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+  <span id="toastText">Wardrobe created!</span>
+</div>
+
+<script>
+(function() {
+  const addBtn = document.getElementById('addWardrobeBtn');
+  const modal = document.getElementById('createModal');
+  const stepName = document.getElementById('stepName');
+  const stepUpload = document.getElementById('stepUpload');
+  const nameInput = document.getElementById('wardrobeName');
+  const charCount = document.getElementById('charCount');
+  const toUploadBtn = document.getElementById('toUploadBtn');
+  const closeBtn1 = document.getElementById('modalClose1');
+  const closeBtn2 = document.getElementById('modalClose2');
+  const uploadZone = document.getElementById('uploadZone');
+  const fileInput = document.getElementById('fileInput');
+  const photoGrid = document.getElementById('photoGrid');
+  const photoCountEl = document.getElementById('photoCount');
+  const selectedCountEl = document.getElementById('selectedCount');
+  const confirmBtn = document.getElementById('confirmBtn');
+  const uploadTitle = document.getElementById('uploadTitle');
+  const toast = document.getElementById('toast');
+  const toastText = document.getElementById('toastText');
+
+  let selectedFiles = [];
+  let wardrobeName = '';
+
+  function openModal() {
+    modal.classList.add('open');
+    stepName.classList.add('active');
+    stepUpload.classList.remove('active');
+    nameInput.value = '';
+    charCount.textContent = '0';
+    toUploadBtn.disabled = true;
+    selectedFiles = [];
+    photoGrid.innerHTML = '';
+    photoCountEl.hidden = true;
+    confirmBtn.disabled = true;
+    setTimeout(() => nameInput.focus(), 350);
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+  }
+
+  addBtn.addEventListener('click', openModal);
+  addBtn.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(); }});
+
+  closeBtn1.addEventListener('click', closeModal);
+  closeBtn2.addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+
+  nameInput.addEventListener('input', () => {
+    const len = nameInput.value.trim().length;
+    charCount.textContent = nameInput.value.length;
+    toUploadBtn.disabled = len === 0;
+  });
+
+  toUploadBtn.addEventListener('click', () => {
+    wardrobeName = nameInput.value.trim();
+    if (!wardrobeName) return;
+    stepName.classList.remove('active');
+    stepUpload.classList.add('active');
+    uploadTitle.textContent = wardrobeName;
+  });
+
+  uploadZone.addEventListener('click', () => fileInput.click());
+
+  uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('dragover'); });
+  uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+  uploadZone.addEventListener('drop', e => {
+    e.preventDefault();
+    uploadZone.classList.remove('dragover');
+    handleFiles(e.dataTransfer.files);
+  });
+
+  fileInput.addEventListener('change', () => {
+    handleFiles(fileInput.files);
+    fileInput.value = '';
+  });
+
+  function handleFiles(files) {
+    const remaining = 20 - selectedFiles.length;
+    const newFiles = Array.from(files).filter(f => f.type.startsWith('image/')).slice(0, remaining);
+    selectedFiles.push(...newFiles);
+    renderPhotos();
+  }
+
+  function renderPhotos() {
+    photoGrid.innerHTML = '';
+    if (selectedFiles.length === 0) {
+      photoCountEl.hidden = true;
+      confirmBtn.disabled = true;
+      return;
+    }
+    photoCountEl.hidden = false;
+    selectedCountEl.textContent = selectedFiles.length;
+    confirmBtn.disabled = false;
+
+    selectedFiles.forEach((file, i) => {
+      const div = document.createElement('div');
+      div.className = 'photo-thumb';
+      const img = document.createElement('img');
+      img.src = URL.createObjectURL(file);
+      img.alt = file.name;
+      const btn = document.createElement('button');
+      btn.className = 'photo-remove';
+      btn.setAttribute('aria-label', 'Remove photo');
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        URL.revokeObjectURL(img.src);
+        selectedFiles.splice(i, 1);
+        renderPhotos();
+      });
+      div.appendChild(img);
+      div.appendChild(btn);
+      photoGrid.appendChild(div);
+    });
+  }
+
+  confirmBtn.addEventListener('click', () => {
+    if (selectedFiles.length === 0) return;
+
+    // Create new wardrobe card
+    const grid = document.querySelector('.wardrobe-grid');
+    const addCard = document.querySelector('.add-card');
+
+    const card = document.createElement('div');
+    card.className = 'wardrobe-card';
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+
+    // Build mini collage from selected photos
+    const thumbDiv = document.createElement('div');
+    thumbDiv.className = 'wardrobe-thumb';
+    const collage = document.createElement('div');
+    collage.className = 'collage';
+
+    const colors = ['#C4A882','#D4C4A8','#A89070','#BCA888'];
+    for (let j = 0; j < 4; j++) {
+      const cell = document.createElement('div');
+      cell.className = 'collage-cell';
+      if (selectedFiles[j]) {
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(selectedFiles[j]);
+        img.alt = '';
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.objectFit = 'cover';
+        cell.appendChild(img);
+      } else {
+        cell.style.background = colors[j];
+      }
+      collage.appendChild(cell);
+    }
+    thumbDiv.appendChild(collage);
+
+    const badge = document.createElement('div');
+    badge.className = 'item-count-badge';
+    badge.textContent = selectedFiles.length + ' item' + (selectedFiles.length !== 1 ? 's' : '');
+    thumbDiv.appendChild(badge);
+
+    const info = document.createElement('div');
+    info.className = 'wardrobe-info';
+    const name = document.createElement('div');
+    name.className = 'wardrobe-name';
+    name.textContent = wardrobeName;
+    const date = document.createElement('div');
+    date.className = 'wardrobe-date';
+    const now = new Date();
+    date.textContent = 'Created ' + now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    info.appendChild(name);
+    info.appendChild(date);
+
+    card.appendChild(thumbDiv);
+    card.appendChild(info);
+    grid.insertBefore(card, addCard);
+
+    // Update section count
+    const count = grid.querySelectorAll('.wardrobe-card').length;
+    document.querySelector('.section-count').textContent = count + ' wardrobe' + (count !== 1 ? 's' : '');
+
+    closeModal();
+    showToast(wardrobeName + ' created!');
+    selectedFiles = [];
+  });
+
+  function showToast(msg) {
+    toastText.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2800);
+  }
+
+  // Bottom nav active state
+  document.querySelectorAll('.nav-item').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+})();
+</script>
