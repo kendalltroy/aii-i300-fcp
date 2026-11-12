@@ -634,6 +634,205 @@
   @media (max-width: 360px) {
     .wardrobe-grid { grid-template-columns: 1fr; }
   }
+
+  /* ── Wardrobe Detail View ── */
+  .wardrobe-detail {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    overflow: hidden;
+  }
+  .wardrobe-detail.open {
+    transform: translateX(0);
+  }
+
+  .detail-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 0;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    flex-shrink: 0;
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 5;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .back-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    color: var(--fg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .back-btn:hover { border-color: var(--accent); background: var(--accent); color: var(--accent-text); }
+  .back-btn svg { width: 18px; height: 18px; }
+
+  .detail-title-area {
+    flex: 1;
+    min-width: 0;
+  }
+  .detail-title {
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--fg);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .detail-subtitle {
+    font-size: 12px;
+    color: var(--fg-muted);
+    margin-top: 1px;
+  }
+
+  .detail-actions {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  /* ── Pinterest Masonry Grid ── */
+  .detail-scroll {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding: 16px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-bottom: max(90px, calc(80px + env(safe-area-inset-bottom, 0px)));
+  }
+
+  .masonry {
+    columns: 2;
+    column-gap: 12px;
+  }
+
+  .masonry-item {
+    break-inside: avoid;
+    margin-bottom: 12px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--bg-card);
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .masonry-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(26,26,26,0.12);
+  }
+  .masonry-item:active { transform: scale(0.97); }
+
+  .masonry-img {
+    width: 100%;
+    display: block;
+    border-radius: 16px 16px 0 0;
+    object-fit: cover;
+  }
+
+  /* Placeholder images with varying heights for Pinterest effect */
+  .masonry-placeholder {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px 16px 0 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .masonry-placeholder svg {
+    width: 36px;
+    height: 36px;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .masonry-label {
+    padding: 10px 12px;
+    font-size: 13px;
+    color: var(--fg-secondary);
+    line-height: 1.3;
+  }
+  .masonry-label strong {
+    display: block;
+    color: var(--fg);
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+
+  /* ── Add photos FAB inside detail view ── */
+  .detail-fab {
+    position: absolute;
+    bottom: max(24px, env(safe-area-inset-bottom, 0px));
+    right: max(20px, env(safe-area-inset-right, 0px));
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--accent-deep);
+    color: #fff;
+    border: none;
+    box-shadow: var(--shadow-fab);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 6;
+    transition: transform 0.2s;
+  }
+  .detail-fab:hover { transform: scale(1.08); }
+  .detail-fab:active { transform: scale(0.95); }
+  .detail-fab svg { width: 22px; height: 22px; }
+
+  /* ── Detail empty state ── */
+  .detail-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--fg-muted);
+  }
+  .detail-empty-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+  }
+  .detail-empty-icon svg { width: 28px; height: 28px; color: var(--accent-text); }
+  .detail-empty h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--fg);
+    margin: 0 0 6px;
+  }
+  .detail-empty p {
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  @media (min-width: 500px) {
+    .masonry { columns: 3; }
+  }
 </style>
 
 <!-- Header -->
@@ -724,6 +923,30 @@
   </button>
 </nav>
 
+<!-- Wardrobe Detail View -->
+<div class="wardrobe-detail" id="wardrobeDetail">
+  <header class="detail-header">
+    <button class="back-btn" id="backBtn" aria-label="Back to closet">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <div class="detail-title-area">
+      <div class="detail-title" id="detailTitle">Cozy Autumn</div>
+      <div class="detail-subtitle" id="detailSubtitle">8 items</div>
+    </div>
+    <div class="detail-actions">
+      <button class="icon-btn" aria-label="More options">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+      </button>
+    </div>
+  </header>
+  <div class="detail-scroll" id="detailScroll">
+    <!-- Masonry grid filled by JS -->
+  </div>
+  <button class="detail-fab" id="detailAddBtn" aria-label="Add photos">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+  </button>
+</div>
+
 <!-- Modal: Create Wardrobe -->
 <div class="modal-overlay" id="createModal">
   <div class="modal-sheet">
@@ -806,9 +1029,180 @@
   const toast = document.getElementById('toast');
   const toastText = document.getElementById('toastText');
 
+  // Detail view elements
+  const detailView = document.getElementById('wardrobeDetail');
+  const detailTitle = document.getElementById('detailTitle');
+  const detailSubtitle = document.getElementById('detailSubtitle');
+  const detailScroll = document.getElementById('detailScroll');
+  const backBtn = document.getElementById('backBtn');
+  const detailAddBtn = document.getElementById('detailAddBtn');
+
   let selectedFiles = [];
   let wardrobeName = '';
 
+  // ── Wardrobe data store ──
+  // Each wardrobe: { name, date, images: [{src, label, height}] }
+  const wardrobes = [
+    {
+      name: 'Cozy Autumn',
+      date: 'Created Nov 10',
+      images: [
+        { color: '#C4A882', label: 'Camel Trench Coat', height: 220, icon: 'coat' },
+        { color: '#E8DDD0', label: 'Cream Knit Sweater', height: 180, icon: 'sweater' },
+        { color: '#8B7355', label: 'Brown Ankle Boots', height: 160, icon: 'boot' },
+        { color: '#D4C4A8', label: 'Beige Wool Scarf', height: 200, icon: 'scarf' },
+        { color: '#A89070', label: 'Corduroy Pants', height: 240, icon: 'pants' },
+        { color: '#BCA888', label: 'Leather Crossbody Bag', height: 170, icon: 'bag' },
+        { color: '#C9B896', label: 'Cashmere Turtleneck', height: 190, icon: 'top' },
+        { color: '#9E8B73', label: 'Suede Loafers', height: 150, icon: 'shoe' },
+      ]
+    }
+  ];
+
+  // SVG icons for placeholder items
+  const itemIcons = {
+    coat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9l4-5h8l4 5v11"/><path d="M4 20h16"/><path d="M12 4v6"/><path d="M8 4c0 2 1.5 3 4 3s4-1 4-3"/></svg>',
+    sweater: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10v10h16V10"/><path d="M4 10l-2-3h6L12 4l4 3h6l-2 3"/><path d="M12 14v3"/><path d="M10 14h4"/></svg>',
+    boot: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 21h10v-3l2-4V8h-4V3H9v5H5v6l2 4v3z"/></svg>',
+    scarf: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3c0 2 2 4 4 4s4-2 4-4"/><path d="M8 3v13a4 4 0 0 0 8 0V3"/><path d="M10 21h4"/></svg>',
+    pants: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14v4l-2 13H7L5 8V4z"/><path d="M12 4v10"/></svg>',
+    bag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="18" height="12" rx="2"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg>',
+    top: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10v10h16V10"/><path d="M4 10l4-6h8l4 6"/><path d="M10 4c0 1.5 1 3 2 3s2-1.5 2-3"/></svg>',
+    shoe: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18h18v-3l-6-4-3 1-6-2v8z"/><path d="M3 10l6 2 3-1 6 4"/></svg>',
+  };
+
+  // ── Open wardrobe detail ──
+  let currentWardrobe = null;
+
+  function openWardrobe(index) {
+    const w = wardrobes[index];
+    if (!w) return;
+    currentWardrobe = index;
+    detailTitle.textContent = w.name;
+    detailSubtitle.textContent = w.images.length + ' item' + (w.images.length !== 1 ? 's' : '');
+    renderMasonry(w);
+    detailView.classList.add('open');
+  }
+
+  function closeWardrobe() {
+    detailView.classList.remove('open');
+    currentWardrobe = null;
+  }
+
+  function renderMasonry(w) {
+    detailScroll.innerHTML = '';
+
+    if (w.images.length === 0) {
+      detailScroll.innerHTML = '<div class="detail-empty">' +
+        '<div class="detail-empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>' +
+        '<h3>No items yet</h3>' +
+        '<p>Tap the + button to add photos<br>to this wardrobe</p></div>';
+      return;
+    }
+
+    const grid = document.createElement('div');
+    grid.className = 'masonry';
+
+    w.images.forEach((item, i) => {
+      const card = document.createElement('div');
+      card.className = 'masonry-item';
+
+      if (item.src) {
+        // Real uploaded image
+        const img = document.createElement('img');
+        img.className = 'masonry-img';
+        img.src = item.src;
+        img.alt = item.label || '';
+        img.style.aspectRatio = 'auto';
+        card.appendChild(img);
+      } else {
+        // Placeholder with color + icon
+        const placeholder = document.createElement('div');
+        placeholder.className = 'masonry-placeholder';
+        placeholder.style.height = item.height + 'px';
+        placeholder.style.background = 'linear-gradient(145deg, ' + item.color + ', ' + adjustColor(item.color, -20) + ')';
+        placeholder.innerHTML = itemIcons[item.icon] || itemIcons.top;
+        card.appendChild(placeholder);
+      }
+
+      if (item.label) {
+        const label = document.createElement('div');
+        label.className = 'masonry-label';
+        label.innerHTML = '<strong>' + escapeHtml(item.label) + '</strong>';
+        card.appendChild(label);
+      }
+
+      grid.appendChild(card);
+    });
+
+    detailScroll.appendChild(grid);
+  }
+
+  function adjustColor(hex, amount) {
+    hex = hex.replace('#', '');
+    let r = Math.max(0, Math.min(255, parseInt(hex.substr(0,2),16) + amount));
+    let g = Math.max(0, Math.min(255, parseInt(hex.substr(2,2),16) + amount));
+    let b = Math.max(0, Math.min(255, parseInt(hex.substr(4,2),16) + amount));
+    return '#' + [r,g,b].map(c => c.toString(16).padStart(2,'0')).join('');
+  }
+
+  function escapeHtml(s) {
+    const d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
+  backBtn.addEventListener('click', closeWardrobe);
+
+  // Click handler for wardrobe cards (delegate from grid)
+  function attachCardListeners() {
+    document.querySelectorAll('.wardrobe-card').forEach((card, i) => {
+      card.onclick = () => openWardrobe(i);
+      card.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openWardrobe(i); }};
+    });
+  }
+  attachCardListeners();
+
+  // Add photos from within the detail view
+  const detailFileInput = document.createElement('input');
+  detailFileInput.type = 'file';
+  detailFileInput.accept = 'image/*';
+  detailFileInput.multiple = true;
+  detailFileInput.hidden = true;
+  document.body.appendChild(detailFileInput);
+
+  detailAddBtn.addEventListener('click', () => detailFileInput.click());
+
+  detailFileInput.addEventListener('change', () => {
+    if (currentWardrobe === null) return;
+    const w = wardrobes[currentWardrobe];
+    const remaining = 20 - w.images.length;
+    const files = Array.from(detailFileInput.files).filter(f => f.type.startsWith('image/')).slice(0, remaining);
+
+    files.forEach(file => {
+      w.images.push({
+        src: URL.createObjectURL(file),
+        label: file.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' '),
+        height: 180
+      });
+    });
+
+    detailSubtitle.textContent = w.images.length + ' item' + (w.images.length !== 1 ? 's' : '');
+    renderMasonry(w);
+    updateCardBadge(currentWardrobe, w);
+    showToast(files.length + ' photo' + (files.length !== 1 ? 's' : '') + ' added');
+    detailFileInput.value = '';
+  });
+
+  function updateCardBadge(index, w) {
+    const cards = document.querySelectorAll('.wardrobe-card');
+    if (cards[index]) {
+      const badge = cards[index].querySelector('.item-count-badge');
+      if (badge) badge.textContent = w.images.length + ' item' + (w.images.length !== 1 ? 's' : '');
+    }
+  }
+
+  // ── Create wardrobe modal ──
   function openModal() {
     modal.classList.add('open');
     stepName.classList.add('active');
@@ -906,7 +1300,19 @@
   confirmBtn.addEventListener('click', () => {
     if (selectedFiles.length === 0) return;
 
-    // Create new wardrobe card
+    // Add new wardrobe to data store
+    const newWardrobe = {
+      name: wardrobeName,
+      date: 'Created ' + new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      images: selectedFiles.map(file => ({
+        src: URL.createObjectURL(file),
+        label: file.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' '),
+        height: 180
+      }))
+    };
+    wardrobes.push(newWardrobe);
+
+    // Create new wardrobe card in grid
     const grid = document.querySelector('.wardrobe-grid');
     const addCard = document.querySelector('.add-card');
 
@@ -915,7 +1321,6 @@
     card.setAttribute('role', 'button');
     card.setAttribute('tabindex', '0');
 
-    // Build mini collage from selected photos
     const thumbDiv = document.createElement('div');
     thumbDiv.className = 'wardrobe-thumb';
     const collage = document.createElement('div');
@@ -952,14 +1357,16 @@
     name.textContent = wardrobeName;
     const date = document.createElement('div');
     date.className = 'wardrobe-date';
-    const now = new Date();
-    date.textContent = 'Created ' + now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    date.textContent = newWardrobe.date;
     info.appendChild(name);
     info.appendChild(date);
 
     card.appendChild(thumbDiv);
     card.appendChild(info);
     grid.insertBefore(card, addCard);
+
+    // Re-attach click listeners
+    attachCardListeners();
 
     // Update section count
     const count = grid.querySelectorAll('.wardrobe-card').length;
