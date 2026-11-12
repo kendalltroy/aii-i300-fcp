@@ -833,6 +833,217 @@
   @media (min-width: 500px) {
     .masonry { columns: 3; }
   }
+
+  /* ── Page visibility ── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ── Discover Page ── */
+  .discover-header {
+    margin-bottom: 16px;
+  }
+  .discover-greeting {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 24px;
+    color: var(--fg);
+    margin-bottom: 2px;
+  }
+  .discover-sub {
+    font-size: 13px;
+    color: var(--fg-muted);
+  }
+
+  .discover-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    padding: 11px 16px;
+    margin-bottom: 22px;
+    cursor: text;
+    transition: border-color 0.2s;
+  }
+  .discover-search:focus-within { border-color: var(--accent-deep); }
+  .discover-search svg { width: 18px; height: 18px; color: var(--fg-muted); flex-shrink: 0; }
+  .discover-search input {
+    border: none;
+    background: none;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--fg);
+    outline: none;
+    flex: 1;
+    min-width: 0;
+  }
+  .discover-search input::placeholder { color: var(--fg-muted); }
+
+  /* ── Discover section row ── */
+  .disc-section {
+    margin-bottom: 28px;
+  }
+  .disc-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .disc-section-title {
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--fg);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .disc-section-title .emoji {
+    font-size: 16px;
+    line-height: 1;
+  }
+  .disc-see-all {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent-deep);
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-family: inherit;
+    padding: 4px 0;
+  }
+  .disc-see-all:hover { text-decoration: underline; }
+
+  /* ── Horizontal scroll row ── */
+  .scroll-row {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+    margin-left: calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
+    margin-right: calc(-1 * max(16px, env(safe-area-inset-right, 0px)));
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  .scroll-row::-webkit-scrollbar { display: none; }
+  .scroll-row { scrollbar-width: none; }
+
+  /* ── Product card ── */
+  .product-card {
+    flex: 0 0 152px;
+    scroll-snap-align: start;
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .product-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card);
+  }
+  .product-card:active { transform: scale(0.97); }
+
+  .product-img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .product-img svg {
+    width: 32px;
+    height: 32px;
+    color: rgba(255,255,255,0.45);
+  }
+
+  .product-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 20px;
+    letter-spacing: 0.2px;
+  }
+  .badge-match {
+    background: var(--accent-deep);
+    color: #fff;
+  }
+  .badge-trending {
+    background: #E8825A;
+    color: #fff;
+  }
+  .badge-new {
+    background: #5A8FE8;
+    color: #fff;
+  }
+
+  .product-heart {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .product-heart svg { width: 14px; height: 14px; color: var(--fg-muted); }
+  .product-heart.liked svg { color: #E05A5A; fill: #E05A5A; }
+  .product-heart:hover { background: rgba(255,255,255,1); }
+
+  .product-info {
+    padding: 10px 11px 12px;
+  }
+  .product-brand {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--fg-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+  }
+  .product-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--fg);
+    line-height: 1.3;
+    margin-bottom: 4px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .product-price {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--fg);
+  }
+  .product-match {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--accent-text);
+    background: color-mix(in srgb, var(--accent) 20%, transparent);
+    padding: 2px 7px;
+    border-radius: 10px;
+    margin-top: 5px;
+  }
 </style>
 
 <!-- Header -->
@@ -851,57 +1062,113 @@
 <!-- Scrollable Content -->
 <main class="content">
 
-  <div class="section-row">
-    <div class="section-title">
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"/><path d="M3 9V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2"/><line x1="12" y1="13" x2="12" y2="17"/><line x1="10" y1="15" x2="14" y2="15"/></svg>
-      My Wardrobes
+  <!-- ═══ CLOSET PAGE ═══ -->
+  <div class="page active" id="pageCloset">
+    <div class="section-row">
+      <div class="section-title">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"/><path d="M3 9V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2"/><line x1="12" y1="13" x2="12" y2="17"/><line x1="10" y1="15" x2="14" y2="15"/></svg>
+        My Wardrobes
+      </div>
+      <span class="section-count">1 wardrobe</span>
     </div>
-    <span class="section-count">1 wardrobe</span>
-  </div>
 
-  <div class="wardrobe-grid">
-
-    <!-- Mock wardrobe: Cozy Autumn -->
-    <div class="wardrobe-card" role="button" tabindex="0" aria-label="Cozy Autumn wardrobe">
-      <div class="wardrobe-thumb">
-        <div class="collage">
-          <div class="collage-cell" style="background: #C4A882;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.87-3.13-7-7-7Z"/></svg>
+    <div class="wardrobe-grid">
+      <div class="wardrobe-card" role="button" tabindex="0" aria-label="Cozy Autumn wardrobe">
+        <div class="wardrobe-thumb">
+          <div class="collage">
+            <div class="collage-cell" style="background: #C4A882;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.87-3.13-7-7-7Z"/></svg>
+            </div>
+            <div class="collage-cell" style="background: #D4C4A8;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.38 3.46L16 2 12 3.5 8 2 3.62 3.46A2 2 0 0 0 2 5.41v14.18a2 2 0 0 0 2.62 1.89L8 20l4-1.5 4 1.5 4.38-1.52A2 2 0 0 0 22 16.59V5.41a2 2 0 0 0-1.62-1.95Z"/></svg>
+            </div>
+            <div class="collage-cell" style="background: #A89070;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22C6.5 22 2 17.5 2 12S6.5 2 12 2s10 4.5 10 10-4.5 10-10 10Z"/></svg>
+            </div>
+            <div class="collage-cell" style="background: #BCA888;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+            </div>
           </div>
-          <div class="collage-cell" style="background: #D4C4A8;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.38 3.46L16 2 12 3.5 8 2 3.62 3.46A2 2 0 0 0 2 5.41v14.18a2 2 0 0 0 2.62 1.89L8 20l4-1.5 4 1.5 4.38-1.52A2 2 0 0 0 22 16.59V5.41a2 2 0 0 0-1.62-1.95Z"/></svg>
-          </div>
-          <div class="collage-cell" style="background: #A89070;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22C6.5 22 2 17.5 2 12S6.5 2 12 2s10 4.5 10 10-4.5 10-10 10Z"/></svg>
-          </div>
-          <div class="collage-cell" style="background: #BCA888;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
-          </div>
+          <div class="item-count-badge">8 items</div>
         </div>
-        <div class="item-count-badge">8 items</div>
+        <div class="wardrobe-info">
+          <div class="wardrobe-name">Cozy Autumn</div>
+          <div class="wardrobe-date">Created Nov 10</div>
+        </div>
       </div>
-      <div class="wardrobe-info">
-        <div class="wardrobe-name">Cozy Autumn</div>
-        <div class="wardrobe-date">Created Nov 10</div>
+
+      <div class="add-card" role="button" tabindex="0" aria-label="Create new wardrobe" id="addWardrobeBtn">
+        <div class="add-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="add-label">Create a new<br>wardrobe</div>
       </div>
     </div>
 
-    <!-- Add new wardrobe -->
-    <div class="add-card" role="button" tabindex="0" aria-label="Create new wardrobe" id="addWardrobeBtn">
-      <div class="add-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    <div class="tip-banner">
+      <div class="tip-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><path d="m15.5 7.5 2.8-2.8"/><path d="M20 12h-4"/><path d="m15.5 16.5 2.8 2.8"/><path d="M12 18v4"/><path d="m4.9 19.1 2.8-2.8"/><path d="M4 12h4"/><path d="m4.9 4.9 2.8 2.8"/></svg>
       </div>
-      <div class="add-label">Create a new<br>wardrobe</div>
+      <div class="tip-text">
+        <strong>Tip:</strong> Upload photos of your favorite outfits and clothing items to build wardrobes. ClosetAI will help you discover new pieces that match your style.
+      </div>
     </div>
-
   </div>
 
-  <div class="tip-banner">
-    <div class="tip-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><path d="m15.5 7.5 2.8-2.8"/><path d="M20 12h-4"/><path d="m15.5 16.5 2.8 2.8"/><path d="M12 18v4"/><path d="m4.9 19.1 2.8-2.8"/><path d="M4 12h4"/><path d="m4.9 4.9 2.8 2.8"/></svg>
+  <!-- ═══ DISCOVER PAGE ═══ -->
+  <div class="page" id="pageDiscover">
+    <div class="discover-header">
+      <div class="discover-greeting">Discover</div>
+      <div class="discover-sub">Pieces picked for your style</div>
     </div>
-    <div class="tip-text">
-      <strong>Tip:</strong> Upload photos of your favorite outfits and clothing items to build wardrobes. ClosetAI will help you discover new pieces that match your style.
+
+    <div class="discover-search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Search brands, styles, items..." id="discoverSearchInput">
+    </div>
+
+    <!-- Section 1: Trending -->
+    <div class="disc-section">
+      <div class="disc-section-header">
+        <div class="disc-section-title"><span class="emoji">🔥</span> Trending</div>
+        <button class="disc-see-all">See all</button>
+      </div>
+      <div class="scroll-row" id="trendingRow"></div>
+    </div>
+
+    <!-- Section 2: For You -->
+    <div class="disc-section">
+      <div class="disc-section-header">
+        <div class="disc-section-title"><span class="emoji">✨</span> For You</div>
+        <button class="disc-see-all">See all</button>
+      </div>
+      <div class="scroll-row" id="forYouRow"></div>
+    </div>
+
+    <!-- Section 3: Season -->
+    <div class="disc-section">
+      <div class="disc-section-header">
+        <div class="disc-section-title"><span class="emoji">🍂</span> Season</div>
+        <button class="disc-see-all">See all</button>
+      </div>
+      <div class="scroll-row" id="seasonRow"></div>
+    </div>
+
+    <!-- Section 4: Related to wardrobe -->
+    <div class="disc-section">
+      <div class="disc-section-header">
+        <div class="disc-section-title" id="relatedTitle"><span class="emoji">💜</span> Related to Cozy Autumn</div>
+        <button class="disc-see-all">See all</button>
+      </div>
+      <div class="scroll-row" id="relatedRow"></div>
+    </div>
+  </div>
+
+  <!-- ═══ PROFILE PAGE (placeholder) ═══ -->
+  <div class="page" id="pageProfile">
+    <div class="discover-header">
+      <div class="discover-greeting">Profile</div>
+      <div class="discover-sub">Coming soon</div>
     </div>
   </div>
 
@@ -1383,12 +1650,143 @@
     setTimeout(() => toast.classList.remove('show'), 2800);
   }
 
-  // Bottom nav active state
+  // ── Page navigation ──
+  const pages = {
+    closet: document.getElementById('pageCloset'),
+    discover: document.getElementById('pageDiscover'),
+    profile: document.getElementById('pageProfile'),
+  };
+
+  function switchPage(pageName) {
+    Object.values(pages).forEach(p => p.classList.remove('active'));
+    if (pages[pageName]) pages[pageName].classList.add('active');
+
+    document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+    const navBtn = document.querySelector(`.nav-item[data-page="${pageName}"]`);
+    if (navBtn) navBtn.classList.add('active');
+
+    // Update discover "Related to" section title when switching to discover
+    if (pageName === 'discover') {
+      updateRelatedSection();
+    }
+  }
+
   document.querySelectorAll('.nav-item').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+      const page = btn.dataset.page;
+      if (page) switchPage(page);
     });
   });
+
+  // ── Discover page product data ──
+  const trendingProducts = [
+    { brand: 'Aritzia', name: 'The Slouch™ Coat', price: '$348', color: '#B5A08A', badge: 'trending', match: null, icon: 'coat' },
+    { brand: 'Zara', name: 'Oversized Blazer', price: '$129', color: '#8B8178', badge: 'trending', match: null, icon: 'coat' },
+    { brand: 'Everlane', name: 'The Way-High Jean', price: '$118', color: '#6B7B9E', badge: null, match: null, icon: 'pants' },
+    { brand: 'Mango', name: 'Quilted Vest', price: '$89', color: '#A8967E', badge: 'trending', match: null, icon: 'top' },
+    { brand: 'COS', name: 'Wool-Blend Overshirt', price: '$175', color: '#7A8B73', badge: null, match: null, icon: 'coat' },
+    { brand: 'Uniqlo', name: 'Heattech Turtleneck', price: '$25', color: '#3D3A37', badge: 'trending', match: null, icon: 'top' },
+  ];
+
+  const forYouProducts = [
+    { brand: 'Reformation', name: 'Cashmere Crew Sweater', price: '$198', color: '#E0D5C5', badge: null, match: '92%', icon: 'sweater' },
+    { brand: 'Agolde', name: "90's Straight Jeans", price: '$188', color: '#7B8FAA', badge: null, match: '88%', icon: 'pants' },
+    { brand: 'New Balance', name: '550 Sneakers', price: '$110', color: '#C5C0B8', badge: null, match: '85%', icon: 'shoe' },
+    { brand: 'Sézane', name: 'Gaspard Cardigan', price: '$160', color: '#C4A882', badge: 'new', match: '90%', icon: 'sweater' },
+    { brand: 'The Row', name: 'Park Tote', price: '$1,490', color: '#6B5D50', badge: null, match: '87%', icon: 'bag' },
+  ];
+
+  const seasonProducts = [
+    { brand: 'Max Mara', name: 'Madame Wool Coat', price: '$3,690', color: '#C4A882', badge: null, match: null, icon: 'coat' },
+    { brand: 'Totême', name: 'Ribbed Wool Sweater', price: '$390', color: '#E8DDD0', badge: 'new', match: null, icon: 'sweater' },
+    { brand: 'Acne Studios', name: 'Wool Blend Scarf', price: '$220', color: '#9E8B73', badge: null, match: null, icon: 'scarf' },
+    { brand: 'Ganni', name: 'Recycled Wool Boots', price: '$445', color: '#5C524A', badge: null, match: null, icon: 'boot' },
+    { brand: 'Loewe', name: 'Puzzle Edge Bag', price: '$3,200', color: '#A08060', badge: null, match: null, icon: 'bag' },
+    { brand: 'Vince', name: 'Plush Cashmere Pullover', price: '$345', color: '#D6C8B4', badge: null, match: null, icon: 'sweater' },
+  ];
+
+  const relatedProductSets = {
+    'Cozy Autumn': [
+      { brand: 'Aritzia', name: 'The Slouch™ Coat', price: '$348', color: '#B5A08A', badge: null, match: '92%', icon: 'coat' },
+      { brand: 'Madewell', name: 'The Transport Tote', price: '$188', color: '#8B7355', badge: null, match: '88%', icon: 'bag' },
+      { brand: 'J.Crew', name: 'Cable-Knit Sweater', price: '$128', color: '#E0D5C5', badge: null, match: '85%', icon: 'sweater' },
+      { brand: 'Nisolo', name: 'Everyday Chelsea Boot', price: '$230', color: '#6B5D50', badge: null, match: '83%', icon: 'boot' },
+      { brand: 'Everlane', name: 'Corduroy Cheeky Pant', price: '$98', color: '#A89070', badge: null, match: '80%', icon: 'pants' },
+    ],
+    '_default': [
+      { brand: 'Madewell', name: 'The Perfect Tee', price: '$35', color: '#D4C4A8', badge: null, match: '78%', icon: 'top' },
+      { brand: 'Levi\'s', name: '501 Original Jeans', price: '$98', color: '#6B7B9E', badge: null, match: '75%', icon: 'pants' },
+      { brand: 'Converse', name: 'Chuck 70 High Top', price: '$85', color: '#3D3A37', badge: null, match: '72%', icon: 'shoe' },
+      { brand: 'Cos', name: 'Oversized Wool Coat', price: '$290', color: '#8B8178', badge: null, match: '70%', icon: 'coat' },
+    ],
+  };
+
+  function buildProductCard(product) {
+    const card = document.createElement('div');
+    card.className = 'product-card';
+
+    // Image area
+    const imgDiv = document.createElement('div');
+    imgDiv.className = 'product-img';
+    imgDiv.style.background = 'linear-gradient(145deg, ' + product.color + ', ' + adjustColor(product.color, -25) + ')';
+    imgDiv.innerHTML = itemIcons[product.icon] || itemIcons.top;
+
+    if (product.badge) {
+      const bdg = document.createElement('span');
+      bdg.className = 'product-badge badge-' + product.badge;
+      bdg.textContent = product.badge === 'trending' ? '🔥 Trending' : product.badge === 'new' ? 'New' : product.badge;
+      imgDiv.appendChild(bdg);
+    }
+
+    const heart = document.createElement('button');
+    heart.className = 'product-heart';
+    heart.setAttribute('aria-label', 'Save');
+    heart.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+    heart.addEventListener('click', e => {
+      e.stopPropagation();
+      heart.classList.toggle('liked');
+    });
+    imgDiv.appendChild(heart);
+    card.appendChild(imgDiv);
+
+    // Info area
+    const info = document.createElement('div');
+    info.className = 'product-info';
+    info.innerHTML =
+      '<div class="product-brand">' + escapeHtml(product.brand) + '</div>' +
+      '<div class="product-name">' + escapeHtml(product.name) + '</div>' +
+      '<div class="product-price">' + escapeHtml(product.price) + '</div>' +
+      (product.match ? '<div class="product-match">' + product.match + ' match</div>' : '');
+    card.appendChild(info);
+
+    return card;
+  }
+
+  function populateRow(rowId, products) {
+    const row = document.getElementById(rowId);
+    if (!row) return;
+    row.innerHTML = '';
+    products.forEach(p => row.appendChild(buildProductCard(p)));
+  }
+
+  function getLastWardrobeName() {
+    if (wardrobes.length === 0) return 'Your Closet';
+    return wardrobes[wardrobes.length - 1].name;
+  }
+
+  function updateRelatedSection() {
+    const name = getLastWardrobeName();
+    const titleEl = document.getElementById('relatedTitle');
+    if (titleEl) titleEl.innerHTML = '<span class="emoji">💜</span> Related to ' + escapeHtml(name);
+
+    const products = relatedProductSets[name] || relatedProductSets['_default'];
+    populateRow('relatedRow', products);
+  }
+
+  // Populate discover sections on load
+  populateRow('trendingRow', trendingProducts);
+  populateRow('forYouRow', forYouProducts);
+  populateRow('seasonRow', seasonProducts);
+  updateRelatedSection();
 })();
 </script>
