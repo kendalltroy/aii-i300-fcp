@@ -73,6 +73,9 @@
     flex-direction: column;
     overflow: hidden;
     -webkit-font-smoothing: antialiased;
+    max-width: 960px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   /* ── Header ── */
@@ -635,6 +638,49 @@
     .wardrobe-grid { grid-template-columns: 1fr; }
   }
 
+  /* ── Desktop / laptop responsive ── */
+  @media (min-width: 640px) {
+    body { font-size: 15px; }
+    .logo { font-size: 30px; }
+    .header-subtitle { font-size: 13px; }
+    .section-title { font-size: 20px; }
+    .wardrobe-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .discover-greeting { font-size: 28px; }
+    .discover-sub { font-size: 14px; }
+    .discover-search { padding: 13px 20px; }
+    .disc-section-title { font-size: 19px; }
+    .product-card { flex: 0 0 180px; }
+    .product-name { font-size: 14px; }
+    .product-price { font-size: 15px; }
+
+    .bottom-nav {
+      max-width: 960px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 20px 20px 0 0;
+      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+    }
+    .nav-item { padding: 8px 28px; }
+    .nav-item svg { width: 24px; height: 24px; }
+    .nav-item .nav-label { font-size: 12px; }
+
+    .modal-overlay { align-items: center; }
+    .modal-sheet {
+      border-radius: 20px;
+      max-height: 70vh;
+      max-width: 500px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    }
+    .modal-overlay.open .modal-sheet { transform: translateY(0); }
+    .modal-handle { display: none; }
+  }
+
+  @media (min-width: 840px) {
+    .wardrobe-grid { grid-template-columns: repeat(4, 1fr); }
+    .product-card { flex: 0 0 200px; }
+  }
+
   /* ── Wardrobe Detail View ── */
   .wardrobe-detail {
     position: fixed;
@@ -832,6 +878,24 @@
 
   @media (min-width: 500px) {
     .masonry { columns: 3; }
+  }
+  @media (min-width: 840px) {
+    .masonry { columns: 4; column-gap: 16px; }
+    .masonry-item { margin-bottom: 16px; }
+    .masonry-label { padding: 12px 14px; }
+    .masonry-label strong { font-size: 15px; }
+    .detail-header {
+      max-width: 960px;
+      margin: 0 auto;
+      padding-left: max(24px, env(safe-area-inset-left, 0px));
+      padding-right: max(24px, env(safe-area-inset-right, 0px));
+    }
+    .detail-scroll {
+      max-width: 960px;
+      margin: 0 auto;
+      padding-left: max(24px, env(safe-area-inset-left, 0px));
+      padding-right: max(24px, env(safe-area-inset-right, 0px));
+    }
   }
 
   /* ── Page visibility ── */
